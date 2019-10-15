@@ -32,8 +32,8 @@ from sklearn.metrics import accuracy_score
 # In[2]:
 
 
-dir_data = "/Users/romulo/Documents/Dataset/Earthquake Damage/"
-#dir_data = "Dataset/"
+#dir_data = "/Users/romulo/Documents/Dataset/Earthquake Damage/"
+dir_data = "Dataset/"
 df_x_train = pd.read_csv(dir_data+"train_values.csv",index_col="building_id")
 df_y_train = pd.read_csv(dir_data+"train_labels.csv",index_col="building_id")
 df_x_test = pd.read_csv(dir_data+"test_values.csv",index_col="building_id")
@@ -110,14 +110,14 @@ names = ["Nearest Neighbors", "Decision Tree", "Random Forest", "Neural Net", "A
 classifiers = [
     KNeighborsClassifier(10),
     DecisionTreeClassifier(max_depth=8),
-    RandomForestClassifier(max_depth=8, n_estimators=1500, max_features=1),
+    RandomForestClassifier(max_depth=8, n_estimators=1500, max_features=5),
     MLPClassifier(alpha=1, max_iter=1000),
     AdaBoostClassifier(),
     GaussianNB(),
     QuadraticDiscriminantAnalysis()]
 
 
-# In[ ]:
+# In[9]:
 
 
 df_results_sklearn = pd.DataFrame(columns=["algorithm","acc_train","acc_dev","precision_1","recall_1","f1-score_1","precision_2","recall_2","f1-score_2","precision_3","recall_3","f1-score_3"])
@@ -152,7 +152,7 @@ for name, clf in zip(names, classifiers):
 
 # ## Using XGBoost
 
-# In[21]:
+# In[ ]:
 
 
 # My gridsearch (greedy)
