@@ -32,8 +32,8 @@ from sklearn.metrics import accuracy_score
 # In[2]:
 
 
-#dir_data = "/Users/romulo/Documents/Dataset/Earthquake Damage/"
-dir_data = "Dataset/"
+dir_data = "/Users/romulo/Documents/Dataset/Earthquake Damage/"
+#dir_data = "Dataset/"
 df_x_train = pd.read_csv(dir_data+"train_values.csv",index_col="building_id")
 df_y_train = pd.read_csv(dir_data+"train_labels.csv",index_col="building_id")
 df_x_test = pd.read_csv(dir_data+"test_values.csv",index_col="building_id")
@@ -52,7 +52,7 @@ print("len train:",len(df_x_test))
 
 # ## Preparate data
 
-# In[14]:
+# In[3]:
 
 
 # get y train
@@ -62,7 +62,7 @@ y_train = data_train['damage_grade'].values
 data_train = data_train.drop('damage_grade', 1)
 
 
-# In[15]:
+# In[4]:
 
 
 # let's put the train data and test data together to make get_dummies and then divide
@@ -78,21 +78,21 @@ x_train = df_x_all.iloc[:len(data_train)]
 x_test = df_x_all.iloc[len(data_train):]
 
 
-# In[16]:
+# In[5]:
 
 
 # clear memory
 del df_x_all,df_x_train,df_y_train,data_train,df_x_test
 
 
-# In[17]:
+# In[6]:
 
 
 #get x_dev and y_dev (10% from train)
 x_train, x_dev, y_train, y_dev = train_test_split( x_train, y_train, test_size=0.1, random_state=42)
 
 
-# In[18]:
+# In[7]:
 
 
 print("len x_train : %d  len y_train: %d " %(len(x_train),len(y_train)) )
@@ -102,16 +102,13 @@ print("len x_test  : %d" %(len(x_test)) )
 
 # ## Testing Algorithms from sklearn
 
-# In[19]:
+# In[8]:
 
 
-names = ["Nearest Neighbors", "Gaussian Process",
-         "Decision Tree", "Random Forest", "Neural Net", "AdaBoost",
-         "Naive Bayes", "QDA"]
+names = ["Nearest Neighbors", "Decision Tree", "Random Forest", "Neural Net", "AdaBoost","Naive Bayes", "QDA"]
 
 classifiers = [
-    KNeighborsClassifier(50),
-    GaussianProcessClassifier(1.0 * RBF(1.0)),
+    KNeighborsClassifier(10),
     DecisionTreeClassifier(max_depth=8),
     RandomForestClassifier(max_depth=8, n_estimators=1500, max_features=1),
     MLPClassifier(alpha=1, max_iter=1000),
@@ -120,7 +117,7 @@ classifiers = [
     QuadraticDiscriminantAnalysis()]
 
 
-# In[20]:
+# In[ ]:
 
 
 df_results_sklearn = pd.DataFrame(columns=["algorithm","acc_train","acc_dev","precision_1","recall_1","f1-score_1","precision_2","recall_2","f1-score_2","precision_3","recall_3","f1-score_3"])
