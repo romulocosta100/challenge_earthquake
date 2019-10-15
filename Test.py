@@ -32,11 +32,11 @@ from sklearn.metrics import accuracy_score
 # In[2]:
 
 
-#dir_data = "/Users/romulo/Documents/Dataset/"
+#dir_data = "/Users/romulo/Documents/Dataset/Earthquake Damage/"
 dir_data = "Dataset/"
-df_x_train = pd.read_csv(dir_data+"Earthquake Damage/train_values.csv",index_col="building_id")
-df_y_train = pd.read_csv(dir_data+"/Earthquake Damage/train_labels.csv",index_col="building_id")
-df_x_test = pd.read_csv(dir_data+"Earthquake Damage/test_values.csv",index_col="building_id")
+df_x_train = pd.read_csv(dir_data+"train_values.csv",index_col="building_id")
+df_y_train = pd.read_csv(dir_data+"train_labels.csv",index_col="building_id")
+df_x_test = pd.read_csv(dir_data+"test_values.csv",index_col="building_id")
 
 #df_x_train = df_x_train[:100]
 #df_y_train = df_y_train[:100]
@@ -105,13 +105,12 @@ print("len x_test  : %d" %(len(x_test)) )
 # In[19]:
 
 
-names = ["Nearest Neighbors", "RBF SVM", "Gaussian Process",
+names = ["Nearest Neighbors", "Gaussian Process",
          "Decision Tree", "Random Forest", "Neural Net", "AdaBoost",
          "Naive Bayes", "QDA"]
 
 classifiers = [
-    KNeighborsClassifier(10),
-    SVC(gamma=2, C=1),
+    KNeighborsClassifier(50),
     GaussianProcessClassifier(1.0 * RBF(1.0)),
     DecisionTreeClassifier(max_depth=8),
     RandomForestClassifier(max_depth=8, n_estimators=1500, max_features=1),
