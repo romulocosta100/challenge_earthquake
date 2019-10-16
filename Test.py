@@ -102,68 +102,71 @@ print("len x_test  : %d" %(len(x_test)) )
 
 # ## Testing Algorithms from sklearn
 
+# In[19]:
+
+
+# names = ["Nearest Neighbors", "Gaussian Process",
+#          "Decision Tree", "Random Forest", "Neural Net", "AdaBoost",
+#          "Naive Bayes", "QDA"]
+
+# classifiers = [
+#     KNeighborsClassifier(50),
+#     GaussianProcessClassifier(1.0 * RBF(1.0)),
+#     DecisionTreeClassifier(max_depth=8),
+#     RandomForestClassifier(max_depth=8, n_estimators=1500, max_features=1),
+#     MLPClassifier(alpha=1, max_iter=1000),
+#     AdaBoostClassifier(),
+#     GaussianNB(),
+#     QuadraticDiscriminantAnalysis()]
+
+
 # In[8]:
 
 
-names = ["Nearest Neighbors", "Decision Tree", "Random Forest", "Neural Net", "AdaBoost","Naive Bayes", "QDA"]
-
-classifiers = [
-    KNeighborsClassifier(10),
-    DecisionTreeClassifier(max_depth=8),
-    RandomForestClassifier(max_depth=8, n_estimators=1500, max_features=5),
-    MLPClassifier(alpha=1, max_iter=1000),
-    AdaBoostClassifier(),
-    GaussianNB(),
-    QuadraticDiscriminantAnalysis()]
-
-
-# In[9]:
-
-
-df_results_sklearn = pd.DataFrame(columns=["algorithm","acc_train","acc_dev","precision_1","recall_1","f1-score_1","precision_2","recall_2","f1-score_2","precision_3","recall_3","f1-score_3"])
-for name, clf in zip(names, classifiers):
-        print(name)
-        clf.fit(x_train, y_train)
-        score_train = clf.score(x_train, y_train)
-        score_dev = clf.score(x_dev, y_dev)
-        print("\tscore_train: ",score_train)
-        print("\tscore_dev: ",score_dev)
-        print("\n\n")
+# df_results_sklearn = pd.DataFrame(columns=["algorithm","acc_train","acc_dev","precision_1","recall_1","f1-score_1","precision_2","recall_2","f1-score_2","precision_3","recall_3","f1-score_3"])
+# for name, clf in zip(names, classifiers):
+#         print(name)
+#         clf.fit(x_train, y_train)
+#         score_train = clf.score(x_train, y_train)
+#         score_dev = clf.score(x_dev, y_dev)
+#         print("\tscore_train: ",score_train)
+#         print("\tscore_dev: ",score_dev)
+#         print("\n\n")
         
-        pred_y_pred = clf.predict(x_dev)
+#         pred_y_pred = clf.predict(x_dev)
         
-        dict_report = classification_report(y_dev, pred_y_pred,output_dict=True)
-        precision_1 = dict_report["1"]["precision"]
-        precision_2 = dict_report["2"]["precision"]
-        precision_3 = dict_report["3"]["precision"]
+#         dict_report = classification_report(y_dev, pred_y_pred,output_dict=True)
+#         precision_1 = dict_report["1"]["precision"]
+#         precision_2 = dict_report["2"]["precision"]
+#         precision_3 = dict_report["3"]["precision"]
         
-        recall_1 = dict_report["1"]["recall"]
-        recall_2 = dict_report["2"]["recall"]
-        recall_3 = dict_report["3"]["recall"]
+#         recall_1 = dict_report["1"]["recall"]
+#         recall_2 = dict_report["2"]["recall"]
+#         recall_3 = dict_report["3"]["recall"]
         
-        score_1 = dict_report["1"]["f1-score"]
-        score_2 = dict_report["2"]["f1-score"]
-        score_3 = dict_report["3"]["f1-score"]
+#         score_1 = dict_report["1"]["f1-score"]
+#         score_2 = dict_report["2"]["f1-score"]
+#         score_3 = dict_report["3"]["f1-score"]
         
-        df_results_sklearn = df_results_sklearn.append({"algorithm": name,"acc_train":score_train,"acc_dev":score_dev,"precision_1" : precision_1, "recall_1" : recall_1, "f1-score_1" : score_1,"precision_2" : precision_2, "recall_2" : recall_2, "f1-score_2" : score_2,"precision_3" : precision_3, "recall_3" : recall_3, "f1-score_3" : score_3} , ignore_index=True)
-        df_results_sklearn.to_csv("results/df_results_sklearn_alg.csv")
+#         df_results_sklearn = df_results_sklearn.append({"algorithm": name,"acc_train":score_train,"acc_dev":score_dev,"precision_1" : precision_1, "recall_1" : recall_1, "f1-score_1" : score_1,"precision_2" : precision_2, "recall_2" : recall_2, "f1-score_2" : score_2,"precision_3" : precision_3, "recall_3" : recall_3, "f1-score_3" : score_3} , ignore_index=True)
+#         df_results_sklearn.to_csv("results/df_results_sklearn_alg.csv")
         
 
 
 # ## Using XGBoost
 
-# In[ ]:
+# In[10]:
 
 
 # My gridsearch (greedy)
 
 df_results_XGBoost = pd.DataFrame(columns=["acc_train","acc_dev","max_depth","n_estimator","precision_1","recall_1","f1-score_1","precision_2","recall_2","f1-score_2","precision_3","recall_3","f1-score_3"])
 
-max_depth = 6
-n_estimators =  range(100,2100,100)
+max_depths = [4,5,6,7,8,9,10]
+n_estimator =  1500
 
-for n_estimator in n_estimators:
-    print("n_estimators:",n_estimator)
+for max_depth in max_depths:
+    print("max_depths:",max_depth)
 
     model = xgb.XGBClassifier(n_estimators=n_estimator,max_depth=max_depth)
     model.fit(x_train, y_train)
@@ -191,7 +194,7 @@ for n_estimator in n_estimators:
     score_3 = dict_report["3"]["f1-score"]
     
     df_results_XGBoost = df_results_XGBoost.append({"acc_train":accuracy_train,"acc_dev":accuracy_dev,"max_depth":max_depth, "n_estimator":n_estimator, "precision_1" : precision_1, "recall_1" : recall_1, "f1-score_1" : score_1,"precision_2" : precision_2, "recall_2" : recall_2, "f1-score_2" : score_2,"precision_3" : precision_3, "recall_3" : recall_3, "f1-score_3" : score_3} , ignore_index=True)
-    df_results_XGBoost.to_csv("results/df_results_XGBoost.csv")
+    df_results_XGBoost.to_csv("results/df_results_XGBoost_max_depths.csv")
     del model
     print("\taccuracy_train",accuracy_train)
     print("\taccuracy_dev",accuracy_dev)
