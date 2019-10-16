@@ -1,0 +1,13 @@
+len train: 260601
+len train: 86868
+len all: 347469
+len x_train : 234540  len y_train: 234540 
+len x_dev   : 26061  len y_dev  : 26061 
+len x_test  : 86868
+Nearest Neighbors
+	score_train:  0.6814573207128848
+	score_dev:  0.6680864126472507
+
+
+
+Gaussian Process
